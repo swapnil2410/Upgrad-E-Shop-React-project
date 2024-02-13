@@ -15,13 +15,16 @@ function NavigationBar() {
     var token = useRouteLoaderData('root');
     const product_details_token =  useRouteLoaderData('product-details-root'); 
     const order_details_token =  useRouteLoaderData('order-details-root'); 
-
+    const add_product_token =  useRouteLoaderData('add-product-root'); 
     if(!token){
         if(product_details_token){
             token = product_details_token;
         }
         if(order_details_token){
             token = order_details_token;
+        }
+        if(add_product_token){
+            token = add_product_token;
         }
     }
 
@@ -53,6 +56,9 @@ function NavigationBar() {
         navigate('/auth');
     }
 
+    function navigateToAddProduct(){
+        navigate("/add-product", { state: { updateType:'ADD' } })
+    }
 
     return (
         <div className="test">
@@ -87,7 +93,7 @@ function NavigationBar() {
                     />
                     
                     {token && <Button variant="text" color="inherit" component={Link} to="/">Home</Button>}
-                    {token && token.userRole ==='ADMIN' && <Button variant="text" color="inherit">Add Products</Button>}
+                    {token && token.userRole ==='ADMIN' && <Button variant="text" color="inherit" onClick={()=>navigateToAddProduct()}>Add Product</Button>}
                     {!token && <Button variant="text" color="inherit" component={Link} to="/auth"> Login</Button>}
                     {!token && <Button variant="text" color="inherit" component={Link} to="/sign-up">SignUp</Button>}
                     {token &&  <Button variant="contained" color="info" onClick={() => {

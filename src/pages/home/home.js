@@ -26,7 +26,6 @@ function Home() {
     
     const showNotificationBar =() =>{
         if(showNotification){
-            console.log("called show notification")
             setNotificationMessage('Order place successfully!')
             setOpenSnackBar(true);
             window.history.replaceState({}, "");
@@ -82,7 +81,6 @@ function Home() {
     }
 
     const handleModalOpen = (id) => {
-        console.log("called open delete modal ",id);
         setDeleteModalOpen(true);
         setDeleteProductId(id);
       };

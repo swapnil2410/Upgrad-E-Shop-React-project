@@ -19,6 +19,10 @@ function ProductCard({ id, imageSrc, productName, price, description,triggerDele
         navigate('/product-details',{ state: { id: productId } });
     }
 
+    const updateProductHandler = () =>{
+        navigate('/add-product',{ state: { updateType: 'UPDATE', id,imageSrc,productName,price,description } });
+    }
+
     return (
         <Card sx={{ maxWidth: 345 }} className='card-container'>
             <CardMedia
@@ -52,6 +56,7 @@ function ProductCard({ id, imageSrc, productName, price, description,triggerDele
                             color="inherit"
                             aria-label="menu"
                             sx={{ mr: 2 }}
+                            onClick={()=>updateProductHandler()}
                         >
                             <EditIcon />
                         </IconButton>

@@ -13,6 +13,7 @@ import ProtectedRoute from './common/util/ProtectedRoute';
 import { tokenLoader } from './common/util/checkAuth';
 import ProductDetails from './pages/productDetails/productDetails';
 import Order from './pages/orderProduct/order';
+import AddProductForm from './pages/addProduct/addProduct';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       },
       { path: '/order-details', element: <ProtectedRoute><Order /></ProtectedRoute>,
       id: 'order-details-root',
+       loader: tokenLoader,
+      },
+      { path: '/add-product', element: <ProtectedRoute><AddProductForm /></ProtectedRoute>,
+      id: 'add-product-root',
        loader: tokenLoader,
       },
     ]

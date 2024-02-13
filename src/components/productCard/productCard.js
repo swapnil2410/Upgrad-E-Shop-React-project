@@ -47,7 +47,7 @@ function ProductCard({ id, imageSrc, productName, price, description,triggerDele
             <CardActions className='card-actions'>
                 <Button variant='contained' size="medium" onClick={() => {
                         productBuyHandler(productId)
-                    }}>Buy</Button>
+                    }} sx={{ backgroundColor:'#3f51b5'}}>Buy</Button>
 
                 {token.userRole === 'ADMIN' && <div className='action-button-container'>
                     <IconButton

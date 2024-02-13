@@ -65,7 +65,7 @@ function ProductDetails() {
                     <p>{product.description}</p>
                 </div>
                 <div>
-                    <h2 className='prod-price'>Rs. {product?.price}</h2>
+                    <h2 className='prod-price'>₹ {product?.price}</h2>
                 </div>
                 <div className='qunty-container'>
                     <TextField
@@ -82,7 +82,7 @@ function ProductDetails() {
                 <div>
                 <Button variant="contained" onClick={() => {
                         productBuyHandler(product)
-                    }}>Place order</Button>
+                    }} sx={{ backgroundColor:'#3f51b5'}}>Place order</Button>
                 </div>
             </div>
         </div>

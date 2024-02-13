@@ -1,25 +1,63 @@
 import React, { useState } from "react";
 import { Button, TextField, Paper, Typography } from "@mui/material";
+import axios from "axios";
+import ProgressIndicator from "../../components/progressIndicator/progressIndicator";
+import { Link, useNavigate } from "react-router-dom";
+import './signup.css';
 
 function SignUpForm() {
-  // Use state hooks to store the input values
+    const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [contactNumber, setContactNumber] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Handle the form submission
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default browser behavior
-    console.log("First name:", firstName); // Log the first name for debugging
-    console.log("Last name:", lastName); // Log the last name for debugging
-    console.log("Email:", email); // Log the email for debugging
-    console.log("Password:", password); // Log the password for debugging
-    console.log("Confirm password:", confirmPassword); // Log the confirm password for debugging
-    console.log("Contact number:", contactNumber); // Log the contact number for debugging
-    // Do something with the input values here, e.g., send them to your backend for registration
+    setLoading(true);
+    const loginAPI = 'https://fakestoreapi.com/users';
+    const reqBody = {
+        email:'John@gmail.com',
+        username:'johnd',
+        password:'m38rmF$',
+        name:{
+            firstname:'John',
+            lastname:'Doe'
+        },
+        address:{
+            city:'kilcoole',
+            street:'7835 new road',
+            number:3,
+            zipcode:'12926-3874',
+            geolocation:{
+                lat:'-37.3159',
+                long:'81.1496'
+            }
+        },
+        phone:'1-570-236-7033'
+    }
+    axios.post(loginAPI, reqBody).then((response) => {
+        const data = response.data;
+        const token = data.token;
+        // if (!token) {
+        //     alert('Unable to Signup. Please try after some time.');
+        //     setLoading(false);
+        //     return;
+        // }
+        localStorage.clear();
+        localStorage.setItem('user-token', 'fwefwfwfwfvergepgrtohihtteononm33423242442====');
+    
+        localStorage.setItem('user-role', 'USER');
+       
+        navigate('/');
+        setLoading(false);
+    }).catch((error) => {
+        alert("Oops! Some error occured.");
+        setLoading(false);
+    });
   };
 
   return (
@@ -101,9 +139,10 @@ function SignUpForm() {
           fullWidth
           sx={{ mb: 2 }}
         >
-          Sign Up
+          {loading ? <ProgressIndicator /> : 'Sign Up'}
         </Button>
       </form>
+      <p>Already have an account? <Link to='/auth'> Login</Link></p>
     </Paper>
   );
 }

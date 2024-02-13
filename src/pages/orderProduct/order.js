@@ -167,8 +167,7 @@ function AddressForm(props) {
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ mb: 2 }}
-                
+                sx={{mb: 2, backgroundColor:'#3f51b5'}}
             >
                 {loading ? <ProgressIndicator /> : 'Save Address'}
             </Button>
@@ -257,7 +256,7 @@ function Order() {
 
     return <>
         <div className='stepper-container'>
-            <Stepper activeStep={activeStep}>
+            <Stepper activeStep={activeStep} >
                 {steps.map((label, index) => {
                     const stepProps = {};
                     const labelProps = {};
@@ -270,7 +269,7 @@ function Order() {
                         stepProps.completed = false;
                     }
                     return (
-                        <Step key={label} {...stepProps}>
+                        <Step key={label} {...stepProps} >
                             <StepLabel {...labelProps}>{label}</StepLabel>
                         </Step>
                     );
@@ -288,14 +287,15 @@ function Order() {
                             disabled={activeStep === 1}
                             onClick={handleBack}
                             sx={{ mr: 1 }}
+                            variant='outlined'
                         >
                             Back
                         </Button>
                         <Box sx={{ flex: '1 1 auto' }} />
 
 
-                        <Button variant='contained' onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Pace Order' : 'Next'}
+                        <Button variant='contained' onClick={handleNext} sx={{ backgroundColor:'#3f51b5'}}>
+                            {activeStep === steps.length - 1 ? 'Place Order' : 'Next'}
                         </Button>
                     </Box>
                 </React.Fragment>

@@ -22,7 +22,7 @@ const OrderConfirm = (props) => {
                 <p>Quantity: {props.product?.qty}</p>
                 <p>Category: <strong> {props.product?.category}</strong></p>
                 <p>{props.product?.description}</p>
-                <h2 className='final-price'>Total Price: Rs.
+                <h2 className='final-price'>Total Price: ₹
                     {finalPrice} </h2>
             </div>
             <div className='shipment-address-details'>

@@ -2,7 +2,7 @@ import './login.css';
 import React, { useEffect, useState } from "react";
 import { Button, TextField, Paper, Typography, Radio, FormControlLabel, FormLabel, RadioGroup, FormControl } from "@mui/material";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProgressIndicator from '../../components/progressIndicator/progressIndicator';
 
 function Login() {
@@ -28,10 +28,9 @@ function Login() {
     }, []);
 
     const userTypeHandler = (event) =>{
-        console.log(event.target.value)
         const user = event.target.value;
         setRadioValue(event.target.value);
-        if(user === adminUser){
+        if(user === 'ADMIN'){
             setUsername("mor_2314");
             setPassword("83r5^_");
         }else{
@@ -137,7 +136,7 @@ function Login() {
                         {loading ? <ProgressIndicator /> : 'Login'}
                     </Button>
                 </form>
-                <p>Don't have an account? SignUp</p>
+                <p>Don't have an account? <Link to='/sign-up'> SignUp</Link></p>
             </Paper>
 
         </>

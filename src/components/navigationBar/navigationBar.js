@@ -62,8 +62,7 @@ function NavigationBar() {
 
     return (
         <div className="test">
-
-            <AppBar position="static">
+            <AppBar position="static" sx={{ backgroundColor:'#3f51b5'}} >
                 <Toolbar>
                     <IconButton
                         size="large"
@@ -98,7 +97,7 @@ function NavigationBar() {
                     {!token && <Button variant="text" color="inherit" component={Link} to="/sign-up">SignUp</Button>}
                     {token &&  <Button variant="contained" color="info" onClick={() => {
                         logoutHandler()
-                    }} >LogOut</Button>}
+                    }} sx={{ backgroundColor:'red'}}>LogOut</Button>}
                 </Toolbar>
             </AppBar>
         </div>

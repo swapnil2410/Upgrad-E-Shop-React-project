@@ -12,7 +12,13 @@ import { Link, useNavigate, useRouteLoaderData } from 'react-router-dom';
 //import { useEffect, useState } from 'react';
 
 function NavigationBar() {
-    const token = useRouteLoaderData('root');
+    var token = useRouteLoaderData('root');
+    const product_details_token =  useRouteLoaderData('product-details-root'); 
+
+    if(!token){
+        token = product_details_token;
+    }
+
     const navigate = useNavigate();
    // const [isLoggedIn, setIsLoggedIn] = useState(false);
 

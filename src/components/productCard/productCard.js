@@ -4,10 +4,21 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import './productCard.css'
+import { IconButton } from '@mui/material';
+import { useNavigate, useRouteLoaderData } from 'react-router-dom';
 
-function ProductCard({ imageSrc, productName, price, description }) {
+function ProductCard({ id, imageSrc, productName, price, description }) {
+    const token = useRouteLoaderData('root');
+    const navigate = useNavigate();
+    const productId = id;
+
+    const productBuyHandler = (productId) =>{
+        navigate('/product-details',{ state: { id: productId } });
+    }
+
     return (
         <Card sx={{ maxWidth: 345 }} className='card-container'>
             <CardMedia
@@ -16,16 +27,45 @@ function ProductCard({ imageSrc, productName, price, description }) {
                 title="green iguana"
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {productName}
-                </Typography>
+                <div className='title-price-container'>
+                    <Typography gutterBottom variant="h5" component="div" className='product-name-container'>
+                        {productName}
+                    </Typography>
+                    <Typography gutterBottom variant="h5" component="div" className='product-price-container'>
+                    ₹{price}    
+                    </Typography>
+                </div>
+                
                 <Typography variant="body2" color="text.secondary">
                     {description}
                 </Typography>
             </CardContent>
             <CardActions className='card-actions'>
-                <Button size="medium">Rs. {price}</Button>
-                <Button variant='contained' size="medium">Buy</Button>
+                <Button variant='contained' size="medium" onClick={() => {
+                        productBuyHandler(productId)
+                    }}>Buy</Button>
+
+                {token.userRole === 'ADMIN' && <div className='action-button-container'>
+                    <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                            <EditIcon />
+                        </IconButton>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                </div>}
+                
             </CardActions>
         </Card>
     );

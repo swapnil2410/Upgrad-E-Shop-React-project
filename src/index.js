@@ -11,10 +11,13 @@ import Error404 from './pages/Error404/404';
 import SignUpForm from './pages/signup/signup';
 import ProtectedRoute from './common/util/ProtectedRoute';
 import { tokenLoader } from './common/util/checkAuth';
+import ProductDetails from './pages/productDetails/productDetails';
+import Order from './pages/orderProduct/order';
 
 const router = createBrowserRouter([
   {
     path: '/',
+    
     element: <RootLayout />,
     errorElement: <Error404 />,
 
@@ -26,6 +29,14 @@ const router = createBrowserRouter([
       },
       { path: '/auth', element: <Login /> },
       { path: '/sign-up', element: <SignUpForm /> },
+      { path: '/product-details', element: <ProtectedRoute><ProductDetails /></ProtectedRoute>,
+      id: 'product-details-root',
+       loader: tokenLoader,
+      },
+      { path: '/order-details', element: <ProtectedRoute><Order /></ProtectedRoute>,
+      id: 'order-details-root',
+       loader: tokenLoader,
+      },
     ]
   },
 

@@ -88,7 +88,7 @@ function Home() {
     ));
 
     const availableProducts = products.map((product) => (
-        <ProductCard key={product.id} imageSrc={product.image} productName={product.title} price={product.price} description={product.description} />
+        <ProductCard key={product.id} id={product.id} imageSrc={product.image} productName={product.title} price={product.price} description={product.description} />
     ));
 
     return <>

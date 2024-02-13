@@ -12,7 +12,7 @@ function Login() {
     const [password, setPassword] = useState("83r5^_");
     const [radioValue, setRadioValue] = React.useState('');
     const [loading, setLoading] = useState(false);
-    const adminUser = 'ADMIN';
+    const adminUser = 'mor_2314';
 
     const checkUserToken = () => {
         const userToken = localStorage.getItem('user-token');
@@ -38,7 +38,6 @@ function Login() {
             setUsername("johnd");
             setPassword("m38rmF$");
         }
-        
     }
 
     // Handle the form submission

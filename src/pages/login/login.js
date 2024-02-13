@@ -1,14 +1,17 @@
 import './login.css';
 import React, { useEffect, useState } from "react";
-import { Button, TextField, Paper, Typography, Radio, FormControlLabel, FormLabel, RadioGroup, FormControl } from "@mui/material";
+import { Button, TextField, Paper, Typography, Radio, FormControlLabel, FormLabel, RadioGroup, FormControl, Snackbar, Alert } from "@mui/material";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import ProgressIndicator from '../../components/progressIndicator/progressIndicator';
+import Footer from '../../components/footer/footer';
 
 function Login() {
     const navigate = useNavigate();
     // Use state hooks to store the username and password inputs
     const [username, setUsername] = useState("mor_2314");
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
     const [password, setPassword] = useState("83r5^_");
     const [radioValue, setRadioValue] = React.useState('');
     const [loading, setLoading] = useState(false);
@@ -23,17 +26,30 @@ function Login() {
 
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackBar(false);
+    };
+
     useEffect(() => {
         checkUserToken();
     }, []);
 
-    const userTypeHandler = (event) =>{
+    const displayMessage = (message) => {
+        setNotificationMessage(message)
+        setOpenSnackBar(true);
+    }
+
+    const userTypeHandler = (event) => {
         const user = event.target.value;
         setRadioValue(event.target.value);
-        if(user === 'ADMIN'){
+        if (user === 'ADMIN') {
             setUsername("mor_2314");
             setPassword("83r5^_");
-        }else{
+        } else {
             setUsername("johnd");
             setPassword("m38rmF$");
         }
@@ -56,7 +72,7 @@ function Login() {
             const data = response.data;
             const token = data.token;
             if (!token) {
-                alert('Unable to login. Please try after some time.');
+                displayMessage("Invalid Email/Password")
                 return;
             }
             localStorage.clear();
@@ -69,7 +85,7 @@ function Login() {
             navigate('/');
             setLoading(false);
         }).catch((error) => {
-            alert("Oops! Some error occured.");
+            displayMessage("Invalid Email/Password")
             setLoading(false);
         });
     };
@@ -101,18 +117,19 @@ function Login() {
                     >
                         <FormControlLabel value="USER" control={<Radio />} label="Customer" />
                         <FormControlLabel value="ADMIN" control={<Radio />} label="Admin" />
-                    
+
                     </RadioGroup>
                 </FormControl>
 
 
                 <form onSubmit={handleSubmit}>
                     <TextField
-                        label="Username"
+                        label="Email"
                         variant="outlined"
                         fullWidth
                         required
                         sx={{ mb: 2 }}
+
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
                     />
@@ -138,7 +155,17 @@ function Login() {
                 </form>
                 <p>Don't have an account? <Link to='/sign-up'> SignUp</Link></p>
             </Paper>
-
+            <Footer />
+            <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ horizontal: 'right', vertical: 'top' }}>
+                <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {notificationMessage}
+                </Alert>
+            </Snackbar>
         </>
     );
 }

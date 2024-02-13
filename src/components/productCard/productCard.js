@@ -10,7 +10,7 @@ import './productCard.css'
 import { IconButton } from '@mui/material';
 import { useNavigate, useRouteLoaderData } from 'react-router-dom';
 
-function ProductCard({ id, imageSrc, productName, price, description }) {
+function ProductCard({ id, imageSrc, productName, price, description,triggerDeleteModal }) {
     const token = useRouteLoaderData('root');
     const navigate = useNavigate();
     const productId = id;
@@ -22,9 +22,9 @@ function ProductCard({ id, imageSrc, productName, price, description }) {
     return (
         <Card sx={{ maxWidth: 345 }} className='card-container'>
             <CardMedia
-                sx={{ height: 300 }}
+                sx={{ height: 300, objectFit:'inherit' }}
                 image={imageSrc}
-                title="green iguana"
+                title={productName}
             />
             <CardContent>
                 <div className='title-price-container'>
@@ -61,6 +61,7 @@ function ProductCard({ id, imageSrc, productName, price, description }) {
                             color="inherit"
                             aria-label="menu"
                             sx={{ mr: 2 }}
+                            onClick={triggerDeleteModal}
                         >
                             <DeleteIcon />
                         </IconButton>

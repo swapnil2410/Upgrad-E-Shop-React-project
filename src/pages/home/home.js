@@ -1,4 +1,4 @@
-import { Alert, Button, ButtonGroup, FormControl, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
+import { Alert, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
 import './home.css';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,6 +13,9 @@ function Home() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [deleteProductId, setDeleteProductId] = useState();
+    const [notificationMessage, setNotificationMessage] = useState('');
     const [sortedProductsLabel, setProductSortLabel] = useState('default');
 
     useEffect(() => {
@@ -22,12 +25,17 @@ function Home() {
     }, []);
     
     const showNotificationBar =() =>{
-        console.log(showNotification)
         if(showNotification){
             console.log("called show notification")
+            setNotificationMessage('Order place successfully!')
             setOpenSnackBar(true);
             window.history.replaceState({}, "");
         }
+    }
+
+    const displayMessage = (message) =>{
+        setNotificationMessage(message)
+        setOpenSnackBar(true);
     }
 
 
@@ -73,6 +81,16 @@ function Home() {
             });
     }
 
+    const handleModalOpen = (id) => {
+        console.log("called open delete modal ",id);
+        setDeleteModalOpen(true);
+        setDeleteProductId(id);
+      };
+
+      const handleModalClose = () => {
+        setDeleteModalOpen(false);
+      };
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
           return;
@@ -95,6 +113,23 @@ function Home() {
             });
     }
 
+
+
+    const deleteProductHandler = () =>{
+        setLoading(true);
+        axios
+            .delete(`https://fakestoreapi.com/products/${deleteProductId}`)
+            .then((response) => {
+                setLoading(false);
+                setDeleteModalOpen(false);
+                console.log(response)
+                displayMessage("Deleted " +response.data.title)
+            })
+            .catch((error) => {
+                setLoading(false);
+            });
+    }
+
     const handleProductSort = (event) => {
         fetchSortedProducts(event.target.value);
         setProductSortLabel(event.target.value);
@@ -107,7 +142,7 @@ function Home() {
     ));
 
     const availableProducts = products.map((product) => (
-        <ProductCard key={product.id} id={product.id} imageSrc={product.image} productName={product.title} price={product.price} description={product.description} />
+        <ProductCard key={product.id} id={product.id} imageSrc={product.image} productName={product.title} price={product.price} description={product.description} triggerDeleteModal={handleModalOpen.bind(null,product.id)}/>
     ));
 
     return <>
@@ -142,6 +177,27 @@ function Home() {
             {availableProducts}
         </div>
 
+      <Dialog
+        open={deleteModalOpen}
+        onClose={handleModalOpen}
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm deletion of product"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure want to delete the product?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          
+          <Button variant='contained' onClick={deleteProductHandler} autoFocus>
+            Delete
+          </Button>
+          <Button onClick={handleModalClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+
       <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{horizontal:'right',vertical:'top'}}>
         <Alert
           onClose={handleClose}
@@ -149,7 +205,7 @@ function Home() {
           variant="filled"
           sx={{ width: '100%' }}
         >
-          Order Placed Successfully
+          {notificationMessage}
         </Alert>
       </Snackbar>
     </>

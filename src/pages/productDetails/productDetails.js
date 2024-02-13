@@ -11,7 +11,7 @@ function ProductDetails() {
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState(1);
-    
+
     useEffect(() => {
         fetchProductsDetails(productId)
     }, [productId])
@@ -46,7 +46,7 @@ function ProductDetails() {
         <div className='card-container-1'>
             <div className='image-container'>
                 <CardMedia
-                    sx={{ height: 400, width: 300 }}
+                    sx={{ height: 350, width: 250, objectFit:'contain' }}
                     image={product?.image}
                     title={product?.title}
                 />

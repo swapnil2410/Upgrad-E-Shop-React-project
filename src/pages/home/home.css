@@ -1,0 +1,22 @@
+
+
+.cat-button-group-container{
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.products-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.sort-form-outer-container{
+    margin: 20px;
+}
+.sort-form-container{
+    margin: 20px;
+    width: 200px;
+}

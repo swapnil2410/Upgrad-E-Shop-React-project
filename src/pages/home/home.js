@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from '../../components/productCard/productCard';
 import ProgressIndicator from '../../components/progressIndicator/progressIndicator';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 
 function Home() {
     const location = useLocation();
+    const dataCtx = useOutletContext();
     let showNotification = location.state?.showNotification;
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
@@ -23,6 +24,10 @@ function Home() {
         fetchProductsHandler();
         showNotificationBar();
     }, []);
+
+    useEffect(()=>{
+        handleSearchProducts()
+    },[dataCtx])
     
     const showNotificationBar =() =>{
         if(showNotification){
@@ -111,8 +116,6 @@ function Home() {
             });
     }
 
-
-
     const deleteProductHandler = () =>{
         setLoading(true);
         axios
@@ -142,6 +145,13 @@ function Home() {
     const availableProducts = products.map((product) => (
         <ProductCard key={product.id} id={product.id} imageSrc={product.image} productName={product.title} price={product.price} description={product.description} triggerDeleteModal={handleModalOpen.bind(null,product.id)}/>
     ));
+
+    const handleSearchProducts = () =>{
+        console.log(dataCtx)
+        const filteredProducts = products.filter(product => product.title === dataCtx);
+        console.log(filteredProducts)
+       // setProducts(filteredProducts);
+    }
 
     return <>
         <div className='cat-button-group-container'>

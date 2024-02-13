@@ -15,6 +15,7 @@ import ProductDetails from './pages/productDetails/productDetails';
 import Order from './pages/orderProduct/order';
 import AddProductForm from './pages/addProduct/addProduct';
 
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -47,10 +48,14 @@ const router = createBrowserRouter([
 
 ])
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <RouterProvider router={router}>
+   
     <App />
+    
   </RouterProvider>
 );
 

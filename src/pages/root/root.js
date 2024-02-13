@@ -22,7 +22,7 @@ function RootLayout(){
 
     return <>
     <Box sx={{ flexGrow: 1 }}>
-        <NavigationBar />
+        <NavigationBar/>
         <Outlet/>
     </Box>
     </>

@@ -9,6 +9,7 @@ import Login from './pages/login/login';
 import RootLayout from './pages/root/root';
 import Error404 from './pages/Error404/404';
 import SignUpForm from './pages/signup/signup';
+import ProtectedRoute from './common/util/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     element:<RootLayout/>,
     errorElement:<Error404/>,
     children:[
-      {path:'/', element:<Home/>},
+      {path:'/', element:<ProtectedRoute> <Home/></ProtectedRoute>},
       {path:'/auth', element:<Login/>},
       {path:'/sign-up', element:<SignUpForm/>},
     ]

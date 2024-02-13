@@ -1,6 +1,7 @@
 import './login.css';
 import React, { useState } from "react";
 import { Button, TextField, Paper, Typography } from "@mui/material";
+import axios from 'axios';
 
 function Login() {
     // Use state hooks to store the username and password inputs
@@ -13,6 +14,25 @@ function Login() {
         console.log("Username:", username); // Log the username for debugging
         console.log("Password:", password); // Log the password for debugging
         // Do something with the username and password here, e.g., send them to your backend for authentication
+        
+       const loginAPI='https://fakestoreapi.com/auth/login';
+      const reqBody={
+        username: "mor_2314",
+        password: "83r5^_"
+        }
+        axios.post(loginAPI, reqBody).then((response) => {
+            console.log("login res=> ",response);
+            const data = response.data;
+            const token = data.token;
+            if (!token) {
+                alert('Unable to login. Please try after some time.');
+                return;
+            }
+            localStorage.clear();
+            localStorage.setItem('user-token', token);
+    }).catch((error) => {
+            alert("Oops! Some error occured.");
+        });
     };
 
     return (

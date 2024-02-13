@@ -12,12 +12,10 @@ import {Link} from 'react-router-dom';
 
 function NavigationBar() {
 
-
     function handleSearchInput(value) {
         console.log("Search input:", value);
         // Process the search input here, e.g., send it to your backend for search
       }
-
 
 
     return (
@@ -35,7 +33,7 @@ function NavigationBar() {
                         <ShoppingCartIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Upgrad E-Shop
+                        Upgrad E-Shop 
                     </Typography>
                    
                         <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>

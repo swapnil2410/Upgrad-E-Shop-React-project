@@ -1,23 +1,36 @@
-import { Button, ButtonGroup, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Alert, Button, ButtonGroup, FormControl, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
 import './home.css';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from '../../components/productCard/productCard';
 import ProgressIndicator from '../../components/progressIndicator/progressIndicator';
+import { useLocation } from 'react-router-dom';
 
 function Home() {
-
+    const location = useLocation();
+    let showNotification = location.state?.showNotification;
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    const [sortedProductsLabel, setProductSortLabel] = React.useState('default');
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [sortedProductsLabel, setProductSortLabel] = useState('default');
 
 
     useEffect(() => {
+        
         fetchCategoriesHandler();
         fetchProductsHandler();
+        showNotificationBar();
     }, []);
+    
+    const showNotificationBar =() =>{
+        console.log(showNotification)
+        if(showNotification){
+            console.log("called show notification")
+            setOpenSnackBar(true);
+            window.history.replaceState({}, "");
+        }
+    }
 
 
     const fetchProductsHandler = () => {
@@ -61,6 +74,14 @@ function Home() {
                 setLoading(false);
             });
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpenSnackBar(false);
+      };
 
     const fetchCategoriesHandler = () => {
         setLoading(true);
@@ -123,6 +144,16 @@ function Home() {
             {availableProducts}
         </div>
 
+      <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{horizontal:'right',vertical:'top'}}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Order Placed Successfully
+        </Alert>
+      </Snackbar>
     </>
 }
 

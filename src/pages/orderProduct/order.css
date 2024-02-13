@@ -1,4 +1,10 @@
 .stepper-container{
-    border: 1px solid red;
-    margin: 10px 50px;
+    margin: 50px 50px;
+}
+
+.bottom-buttons-container{
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    margin: 0 auto;
 }

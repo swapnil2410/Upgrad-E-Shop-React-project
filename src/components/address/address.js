@@ -1,4 +1,4 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import React, { useState } from "react";
 import ProgressIndicator from "../progressIndicator/progressIndicator";
 //import { useForm } from "react-hook-form";
@@ -7,6 +7,7 @@ import './address.css';
 function AddressForm(props) {
     // const { register, handleSubmit, reset } = useForm();
     const [submittedAddress, setSubmittedAddress] = useState(false);
+    //const [savedAddress, setSavedAddress] = React.useState('');
 
     const [name, SetName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
@@ -17,14 +18,54 @@ function AddressForm(props) {
     const [zipCode, setZipCode] = useState('');
     const [loading, setLoading] = useState('');
 
+    const savedUserAddress = {
+            name: 'Martin',
+            contactNumber:'9876543210',
+            street:'abc street',
+            city:'Pune',
+            state:'Maharastra',
+            landmark:'near airport',
+            zipcode:'411014',
+    }
+
     const onSubmitAddress = (data) => {
         console.log(data);
         setSubmittedAddress(true);
     };
 
+    const handleProductSort = () => {
+        SetName(savedUserAddress.name);
+        setContactNumber(savedUserAddress.contactNumber);
+        setStreet(savedUserAddress.street);
+        setCity(savedUserAddress.city);
+        setState(savedUserAddress.state);
+        setLandmark(savedUserAddress.landmark);
+        setZipCode(savedUserAddress.zipcode);
+      };
+
     return (
     <>
     <div className="address-form-continer-1">
+
+        <div className='address-select-outer-container'>
+            <FormControl className='sort-form-container-1'>
+                <InputLabel id="sort-products">Sort</InputLabel>
+                <Select
+                    labelId="sort-products"
+                    id="sort-products"
+                    value={name}
+                    label="Sort"
+                    onChange={handleProductSort}
+                >
+                    <MenuItem value={'default'}>Pune Home -- street, pune.</MenuItem>
+                </Select>
+            </FormControl>
+        </div>
+        <div className="helper-text">
+                <p>-OR-</p>
+                <h3>Add Address</h3>
+        </div>
+                
         <form onSubmit={onSubmitAddress}>
             <TextField
                 label="Name"

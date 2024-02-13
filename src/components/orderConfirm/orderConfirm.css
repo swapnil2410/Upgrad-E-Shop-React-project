@@ -1,0 +1,23 @@
+.order-confirm-container{
+ display: flex;
+ flex-direction: row;
+    border: 1px solid gray;
+    width: 75%;
+    margin: 50px auto;
+    border-radius: 5px;
+}
+
+.order-details{
+    border-right: 1px solid gray;
+    width: 50%;
+    padding: 15px;
+}
+
+.shipment-address-details{
+    width: 50%;
+    padding: 15px;
+}
+
+.final-price{
+    color: red;
+}

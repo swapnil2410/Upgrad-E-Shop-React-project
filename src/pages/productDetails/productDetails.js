@@ -10,14 +10,14 @@ function ProductDetails() {
     const productId = location.state?.id;
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
 
     useEffect(() => {
         fetchProductsDetails(productId)
     }, [productId])
 
     const productBuyHandler = (product) =>{
-        navigate('/order-details',{ state: { product: product } });
+        navigate('/order-details',{ state: { product: {...product, qty:value} } });
     }
 
     const handleChange = (event) => {

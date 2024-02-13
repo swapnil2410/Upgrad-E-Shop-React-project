@@ -11,7 +11,7 @@ function ProductDetails() {
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState(1);
-
+    
     useEffect(() => {
         fetchProductsDetails(productId)
     }, [productId])
@@ -43,7 +43,6 @@ function ProductDetails() {
     }
 
     return <>
-        <h3>Product Details page working</h3>
         <div className='card-container-1'>
             <div className='image-container'>
                 <CardMedia

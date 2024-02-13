@@ -15,9 +15,7 @@ function Home() {
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [sortedProductsLabel, setProductSortLabel] = useState('default');
 
-
     useEffect(() => {
-        
         fetchCategoriesHandler();
         fetchProductsHandler();
         showNotificationBar();

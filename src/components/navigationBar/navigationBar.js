@@ -14,9 +14,15 @@ import { Link, useNavigate, useRouteLoaderData } from 'react-router-dom';
 function NavigationBar() {
     var token = useRouteLoaderData('root');
     const product_details_token =  useRouteLoaderData('product-details-root'); 
+    const order_details_token =  useRouteLoaderData('order-details-root'); 
 
     if(!token){
-        token = product_details_token;
+        if(product_details_token){
+            token = product_details_token;
+        }
+        if(order_details_token){
+            token = order_details_token;
+        }
     }
 
     const navigate = useNavigate();
@@ -59,10 +65,14 @@ function NavigationBar() {
                         color="inherit"
                         aria-label="menu"
                         sx={{ mr: 2 }}
+                        
                     >
-                        <ShoppingCartIcon />
+                        <Link to="/">
+                        
+                        <ShoppingCartIcon sx={{ color:'white' }}/>
+                        </Link>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" color={'white'} sx={{ flexGrow: 1 , textDecoration: 'none' }} component={Link} to="/">
                         Upgrad E-Shop
                     </Typography>
 

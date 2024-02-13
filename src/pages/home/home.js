@@ -14,6 +14,7 @@ function Home() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [deleteProductId, setDeleteProductId] = useState();
     const [notificationMessage, setNotificationMessage] = useState('');
@@ -25,19 +26,19 @@ function Home() {
         showNotificationBar();
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         handleSearchProducts()
-    },[dataCtx])
-    
-    const showNotificationBar =() =>{
-        if(showNotification){
+    }, [dataCtx])
+
+    const showNotificationBar = () => {
+        if (showNotification) {
             setNotificationMessage('Order place successfully!')
             setOpenSnackBar(true);
             window.history.replaceState({}, "");
         }
     }
 
-    const displayMessage = (message) =>{
+    const displayMessage = (message) => {
         setNotificationMessage(message)
         setOpenSnackBar(true);
     }
@@ -71,7 +72,7 @@ function Home() {
             });
     }
 
-    const fetchSortedProducts = (sortType) =>{
+    const fetchSortedProducts = (sortType) => {
         setLoading(true);
         axios
             .get(`https://fakestoreapi.com/products?sort=${sortType}`)
@@ -88,19 +89,19 @@ function Home() {
     const handleModalOpen = (id) => {
         setDeleteModalOpen(true);
         setDeleteProductId(id);
-      };
+    };
 
-      const handleModalClose = () => {
+    const handleModalClose = () => {
         setDeleteModalOpen(false);
-      };
+    };
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
-          return;
+            return;
         }
-    
+
         setOpenSnackBar(false);
-      };
+    };
 
     const fetchCategoriesHandler = () => {
         setLoading(true);
@@ -116,25 +117,25 @@ function Home() {
             });
     }
 
-    const deleteProductHandler = () =>{
-        setLoading(true);
+    const deleteProductHandler = () => {
+        setDeleteLoading(true);
         axios
             .delete(`https://fakestoreapi.com/products/${deleteProductId}`)
             .then((response) => {
-                setLoading(false);
+                setDeleteLoading(false);
                 setDeleteModalOpen(false);
                 console.log(response)
-                displayMessage("Deleted " +response.data.title)
+                displayMessage("Deleted " + response.data.title)
             })
             .catch((error) => {
-                setLoading(false);
+                setDeleteLoading(false);
             });
     }
 
     const handleProductSort = (event) => {
         fetchSortedProducts(event.target.value);
         setProductSortLabel(event.target.value);
-      };
+    };
 
     const listItems = categories.map((category) => (
         <Button onClick={() => {
@@ -143,14 +144,19 @@ function Home() {
     ));
 
     const availableProducts = products.map((product) => (
-        <ProductCard key={product.id} id={product.id} imageSrc={product.image} productName={product.title} price={product.price} description={product.description} triggerDeleteModal={handleModalOpen.bind(null,product.id)}/>
+        <ProductCard key={product.id} id={product.id} imageSrc={product.image} productName={product.title} price={product.price} description={product.description} triggerDeleteModal={handleModalOpen.bind(null, product.id)} />
     ));
 
-    const handleSearchProducts = () =>{
-        console.log(dataCtx)
-        const filteredProducts = products.filter(product => product.title === dataCtx);
-        console.log(filteredProducts)
-       // setProducts(filteredProducts);
+    const handleSearchProducts = () => {
+        //console.log(dataCtx)
+        if (dataCtx === '') {
+            fetchProductsHandler();
+        } else {
+            const filteredProducts = products.filter(product => product.title.toLowerCase().includes(dataCtx));
+            //console.log(filteredProducts)
+            setProducts(filteredProducts);
+        }
+
     }
 
     return <>
@@ -161,7 +167,7 @@ function Home() {
         </div>
         <div className='loader-container'>
 
-       {loading?<ProgressIndicator />:''} 
+            {loading ? <ProgressIndicator /> : ''}
         </div>
         <div className='sort-form-outer-container'>
             <FormControl className='sort-form-container'>
@@ -185,37 +191,37 @@ function Home() {
             {availableProducts}
         </div>
 
-      <Dialog
-        open={deleteModalOpen}
-        onClose={handleModalOpen}
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Confirm deletion of product"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure want to delete the product?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          
-          <Button variant='contained' onClick={deleteProductHandler} autoFocus>
-            Delete
-          </Button>
-          <Button onClick={handleModalClose}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{horizontal:'right',vertical:'top'}}>
-        <Alert
-          onClose={handleClose}
-          severity="success"
-          variant="filled"
-          sx={{ width: '100%' }}
+        <Dialog
+            open={deleteModalOpen}
+            onClose={handleModalOpen}
         >
-          {notificationMessage}
-        </Alert>
-      </Snackbar>
+            <DialogTitle id="alert-dialog-title">
+                {"Confirm deletion of product"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Are you sure want to delete the product?
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+
+                <Button variant='contained' onClick={deleteProductHandler} autoFocus>
+                    {deleteLoading ? <ProgressIndicator /> : 'Delete'}
+                </Button>
+                <Button onClick={handleModalClose}>Cancel</Button>
+            </DialogActions>
+        </Dialog>
+
+        <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ horizontal: 'right', vertical: 'top' }}>
+            <Alert
+                onClose={handleClose}
+                severity="success"
+                variant="filled"
+                sx={{ width: '100%' }}
+            >
+                {notificationMessage}
+            </Alert>
+        </Snackbar>
     </>
 }
 

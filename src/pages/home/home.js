@@ -1,10 +1,11 @@
-import { Alert, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
+import { Alert, Box, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
 import './home.css';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from '../../components/productCard/productCard';
 import ProgressIndicator from '../../components/progressIndicator/progressIndicator';
 import { useLocation, useOutletContext } from 'react-router-dom';
+import PlaceHolder from '../../components/placeHolder/placeHolder';
 
 function Home() {
     const location = useLocation();
@@ -159,6 +160,8 @@ function Home() {
 
     }
 
+   
+
     return <>
         <div className='cat-button-group-container'>
             <ButtonGroup variant="outlined" >
@@ -188,7 +191,7 @@ function Home() {
         </div>
 
         <div className='products-container'>
-            {availableProducts}
+            {availableProducts.length ===0 ?<PlaceHolder/>:availableProducts}
         </div>
 
         <Dialog

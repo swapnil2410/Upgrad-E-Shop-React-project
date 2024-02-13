@@ -1,8 +1,9 @@
-import { Button, ButtonGroup, CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Button, ButtonGroup, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import './home.css';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from '../../components/productCard/productCard';
+import ProgressIndicator from '../../components/progressIndicator/progressIndicator';
 
 function Home() {
 
@@ -10,7 +11,7 @@ function Home() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const [sortedProductsLabel, setProductSortLabel] = React.useState('');
+    const [sortedProductsLabel, setProductSortLabel] = React.useState('default');
 
 
     useEffect(() => {
@@ -91,12 +92,15 @@ function Home() {
     ));
 
     return <>
-        <div>
-            <ButtonGroup variant="outlined" className='cat-button-group-container'>
+        <div className='cat-button-group-container'>
+            <ButtonGroup variant="outlined" >
                 {listItems}
             </ButtonGroup>
         </div>
-       {loading?<CircularProgress />:''} 
+        <div className='loader-container'>
+
+       {loading?<ProgressIndicator />:''} 
+        </div>
         <div className='sort-form-outer-container'>
             <FormControl className='sort-form-container'>
                 <InputLabel id="sort-products">Sort</InputLabel>
@@ -110,6 +114,7 @@ function Home() {
                     <MenuItem value={'default'}>Default</MenuItem>
                     <MenuItem value={'desc'}>Price: High to Low</MenuItem>
                     <MenuItem value={'asc'}>Price: Low to High</MenuItem>
+                    <MenuItem value={'descs'}>Newest</MenuItem>
                 </Select>
             </FormControl>
         </div>
